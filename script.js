@@ -13,7 +13,11 @@ function chooseRandomTip(tips) {
 }
 
 function displayTip(message) {
-    document.getElementById("message").textContent = message;
+    const messageElement = document.getElementById("message");
+
+    if (messageElement) {
+        messageElement.textContent = message;
+    }
 }
 
 function handleButtonClick() {
@@ -40,15 +44,24 @@ function updateDisplay() {
 }
 
 function increaseCount() {
+    if (typeof sandwichCount !== "number") {
+        sandwichCount = 0;
+    }
+
     sandwichCount++;
     updateDisplay();
 }
 
 function decreaseCount() {
+    if (typeof sandwichCount !== "number") {
+        sandwichCount = 0;
+    }
+
     if (sandwichCount > 0) {
         sandwichCount--;
-        updateDisplay();
     }
+
+    updateDisplay();
 }
 
 /* API Functionality */
@@ -65,19 +78,27 @@ async function loadUsers() {
             "https://jsonplaceholder.typicode.com/users"
         );
 
+        if (!response.ok) {
+            throw new Error("Failed to load users.");
+        }
+
         const users = await response.json();
 
         /* Week 12 Performance Improvement:
-           Build HTML once, then update the DOM once. */
+           Build HTML once and update the DOM once. */
 
         let userHTML = "";
 
         users.slice(0, 5).forEach(user => {
+            const name = user.name || "Unknown User";
+            const email = user.email || "No Email Available";
+            const city = user.address?.city || "Unknown City";
+
             userHTML += `
                 <div class="user-card">
-                    <h3>${user.name}</h3>
-                    <p>Email: ${user.email}</p>
-                    <p>City: ${user.address.city}</p>
+                    <h3>${name}</h3>
+                    <p>Email: ${email}</p>
+                    <p>City: ${city}</p>
                 </div>
             `;
         });
@@ -85,9 +106,8 @@ async function loadUsers() {
         userContainer.innerHTML = userHTML;
 
     } catch (error) {
-
-        userContainer.innerHTML =
-            "<p>Unable to load external data.</p>";
+        userContainer.textContent =
+            "Unable to load external data.";
     }
 }
 
