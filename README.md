@@ -35,3 +35,9 @@ The application retrieves user information from an external API using the Fetch 
 State Management
 
 The application uses JavaScript state management through a sandwich counter. Users can increase or decrease the number of sandwiches, and the displayed value updates immediately to reflect the current state.
+
+Reflection
+
+How did thinking about reliability change the way you approach writing your code?
+
+Thinking about reliability changed the way I approach coding because I started considering what could go wrong instead of only focusing on making features work. I added checks for missing data, error handling for API requests, and validation to prevent invalid values from causing problems in the application. These improvements helped make the website more predictable, resilient, and able to continue functioning when unexpected situations occur.
